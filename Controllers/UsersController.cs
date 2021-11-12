@@ -42,16 +42,11 @@ namespace auto_update_data.Controllers
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public Users Create(Users user)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _auto_UpdatedbContext.Users.Add(user);
+            _auto_UpdatedbContext.SaveChanges();
+            return (user);            
         }
 
         // GET: UserController/Edit/5

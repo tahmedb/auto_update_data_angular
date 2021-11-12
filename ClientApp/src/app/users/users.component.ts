@@ -46,8 +46,8 @@ export class UsersComponent implements OnInit {
 
 interface User {
   id:number,
-  first_name:string,
-  last_name:string,
+  firstName:string,
+  lastName:string,
   email:string,
-  home_address:string
+  homeAddress:string
 }
