@@ -28,7 +28,12 @@ namespace auto_update_data.Controllers
             var data = _userRepository.GetAllUsers();
             return data;
         }
-
+        [HttpGet("{id}")]
+        public Users Get(int id)
+        {
+            var user = _auto_UpdatedbContext.Users.Find(id);
+            return user;
+        }
 
         [HttpPost]
         public Users Create(Users user)
@@ -47,7 +52,7 @@ namespace auto_update_data.Controllers
             updateUser.LastName = user.LastName;
             updateUser.Email = user.Email;
             updateUser.HomeAddress = user.HomeAddress;
-            _auto_UpdatedbContext.Users.Update(user);
+            _auto_UpdatedbContext.Users.Update(updateUser);
             _auto_UpdatedbContext.SaveChanges();
             return user;
         }

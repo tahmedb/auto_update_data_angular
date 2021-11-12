@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
     }, error => console.error(error));
   }
   editUser(id:number){
-    this.router.navigate(['add-user',{queryParams:{id}}])
+    this.router.navigateByUrl('/add-user?id='+id)
   }
   getUsers(){
     this.http.get<User[]>(this.baseUrl + 'api/users').subscribe(result => {
