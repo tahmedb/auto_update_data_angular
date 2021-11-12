@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -11,17 +10,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddUserComponent implements OnInit {
   public form:any ={};
   public error:string='';
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string,private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
+  public loading:boolean=false;
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string,
     private router: Router) { }
 
   ngOnInit() {
   }
 
-  addUser(e){
-    e.preventDefault();
-    this.http.post(this.baseUrl + 'addusers',this.form).subscribe(result => {
-      this.router.navigate(['all-users'], { relativeTo: this.route });  
-    }, error => error = 'Something went wrong.');
+  addUser(){
+    this.loading = true;
+    this.http.post(this.baseUrl + 'api/users',this.form).subscribe(result => {
+      this.loading = false;
+      alert('record created')
+      this.router.navigate(['all-users']);  
+    }, error => {
+      error = 'Something went wrong.';
+      this.loading = false;
+    });
   }
 }

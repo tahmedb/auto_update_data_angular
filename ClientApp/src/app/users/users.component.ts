@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ApplicationRef, Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 
 @Component({
@@ -10,7 +11,7 @@ import * as signalR from '@microsoft/signalr';
 export class UsersComponent implements OnInit {
   public users:User[]=[];
   public refresh:boolean=true;
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string,private appRef: ApplicationRef) {
+  constructor(private router: Router,private http: HttpClient, @Inject('BASE_URL') private baseUrl: string,private appRef: ApplicationRef) {
     this.getUsers()
   }
   
@@ -35,8 +36,16 @@ export class UsersComponent implements OnInit {
   objToStr(obj){
     return JSON.stringify(obj);
   }
+  deleteUser(id:number){
+    this.http.delete(this.baseUrl + 'api/users/'+id).subscribe(result => {  
+      alert('record deleted')    
+    }, error => console.error(error));
+  }
+  editUser(id:number){
+    this.router.navigate(['add-user',{queryParams:{id}}])
+  }
   getUsers(){
-    this.http.get<User[]>(this.baseUrl + 'users').subscribe(result => {
+    this.http.get<User[]>(this.baseUrl + 'api/users').subscribe(result => {
       this.users = result;
       this.appRef.tick();
     }, error => console.error(error));

@@ -10,6 +10,7 @@
       <th>Name</th>
       <th>Email</th>
       <th>Address</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -18,6 +19,10 @@
       <td>{{ user.firstName + ' ' +user.lastName }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.homeAddress }}</td>
+      <td>
+        <button (click)="editUser(user.id)" class="btn btn-primary mr-2">Edit</button>
+        <button (click)="deleteUser(user.id)" class="btn btn-primary">Delete</button>
+      </td>
     </tr>
   </tbody>
 </table>

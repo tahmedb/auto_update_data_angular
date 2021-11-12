@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace auto_update_data.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : Controller
     {
         // GET: UserController
@@ -27,21 +29,8 @@ namespace auto_update_data.Controllers
             return data;
         }
 
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: UserController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UserController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public Users Create(Users user)
         {
             _auto_UpdatedbContext.Users.Add(user);
@@ -49,46 +38,27 @@ namespace auto_update_data.Controllers
             return (user);            
         }
 
-        // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
+
+        [HttpPut("{id}")]
+        public Users Edit(int id,Users user)
         {
-            return View();
+            var updateUser = _auto_UpdatedbContext.Users.Find(id);
+            updateUser.FirstName = user.FirstName;
+            updateUser.LastName = user.LastName;
+            updateUser.Email = user.Email;
+            updateUser.HomeAddress = user.HomeAddress;
+            _auto_UpdatedbContext.Users.Update(user);
+            _auto_UpdatedbContext.SaveChanges();
+            return user;
         }
 
-        // POST: UserController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UserController/Delete/5
+        [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: UserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var user = _auto_UpdatedbContext.Users.Find(id);
+            _auto_UpdatedbContext.Users.Remove(user);
+            _auto_UpdatedbContext.SaveChanges();
+            return Ok();
         }
     }
 }
