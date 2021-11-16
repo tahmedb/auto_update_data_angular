@@ -27,7 +27,7 @@ namespace auto_update_data.Repositories
             {
                 con.Open();
                 SqlDependency.Start(connectionString);
-                SqlCommand selectCommand = new SqlCommand("select id,first_name,last_name,email,home_address from dbo.users", con);
+                SqlCommand selectCommand = new SqlCommand("select id,first_name,last_name,email,home_address from dbo.users order by id desc", con);
                 SqlDependency sqlDependency = new SqlDependency(selectCommand);                
                 sqlDependency.OnChange += new OnChangeEventHandler(SqlDependency_OnChange);
                 var reader = selectCommand.ExecuteReader();
